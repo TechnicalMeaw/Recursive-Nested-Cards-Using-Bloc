@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:redoq_assignment/utils/color_constants.dart';
 
-class AddEditCardScreen extends StatelessWidget {
-  final Function(String, int) onSubmit; // Callback function for submit
+class AddEditCardScreen extends StatefulWidget {
+  const AddEditCardScreen({super.key, required this.onSubmit, this.name, this.age});
+  final Function(String, int) onSubmit;
+  final String? name;
+  final int? age;
 
-  AddEditCardScreen({required this.onSubmit});
+  @override
+  State<AddEditCardScreen> createState() => _AddEditCardScreenState();
+}
 
-  // Controllers for TextFields
+class _AddEditCardScreenState extends State<AddEditCardScreen> {
   final _nameController = TextEditingController();
   final _ageController = TextEditingController();
+  final _nameFocus = FocusNode();
+
+  @override
+  void initState() {
+    _nameController.text = widget.name ?? "";
+    _ageController.text = "${widget.age ?? ""}";
+    _nameFocus.requestFocus();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +38,7 @@ class AddEditCardScreen extends StatelessWidget {
                 children: [
                   const SizedBox(height: 16),
                   TextField(
+                    focusNode: _nameFocus,
                     controller: _nameController,
                     decoration: const InputDecoration(
                       labelText: 'Name',
@@ -50,7 +65,7 @@ class AddEditCardScreen extends StatelessWidget {
 
                   if (name.isNotEmpty && age > 0) {
                     // Call the submit callback function
-                    onSubmit(name, age);
+                    widget.onSubmit(name, age);
 
                     // Close the bottom sheet after submit
                     Navigator.pop(context);
@@ -71,3 +86,5 @@ class AddEditCardScreen extends StatelessWidget {
     );
   }
 }
+
+

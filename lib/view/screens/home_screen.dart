@@ -74,6 +74,8 @@ class HomeScreen extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => AddEditCardScreen(
+                name: card.name,
+                age: card.age,
                 onSubmit: (name, age) {
                   // Handle the submitted card details
                   // Add the card to the list or perform other actions as needed
